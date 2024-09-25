@@ -4,9 +4,19 @@ import 'package:get/get.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tractian_flutter_challenger_v2/features/assets/presentation/pages/asset_page.dart';
 import 'package:tractian_flutter_challenger_v2/features/assets/presentation/stores/asset_store.dart';
-import 'get_assets_usecase_test.mocks.dart'; // Importa o arquivo gerado pelo mockito
+import 'get_assets_usecase_test.mocks.dart';
 
 void main() {
+  setUp(() {
+    Get.reset();
+  });
+
+  Widget createWidgetUnderTest() {
+    return const GetMaterialApp(
+      home: AssetPage(),
+    );
+  }
+
   testWidgets('AssetPage renders correctly and interacts with filters',
       (WidgetTester tester) async {
     final mockGetAssetsUseCase = MockGetAssetsUseCase();
@@ -30,28 +40,24 @@ void main() {
           'components': [],
         });
 
+    Get.parameters = {'companyId': 'test-company-id'};
+
     final store = AssetStore(mockGetAssetsUseCase);
     Get.put(store);
 
-    await tester.pumpWidget(
-      const GetMaterialApp(
-        home: AssetPage(),
-      ),
-    );
+    await tester.pumpWidget(createWidgetUnderTest());
 
     expect(find.text('Assets'), findsOneWidget);
-
     expect(find.byType(TextField), findsOneWidget);
-
     expect(find.byType(FilterChip), findsNWidgets(2));
 
     await tester.tap(find.text('Sensor de Energia'));
     await tester.pumpAndSettle();
-    expect(store.showEnergySensors, true);
+    expect(store.showEnergySensors, isTrue);
 
     await tester.tap(find.text('Crítico'));
     await tester.pumpAndSettle();
-    expect(store.showCriticalAssets, true);
+    expect(store.showCriticalAssets, isTrue);
 
     await tester.pumpAndSettle();
 
@@ -69,16 +75,15 @@ void main() {
           'components': [],
         });
 
+    Get.parameters = {'companyId': 'test-company-id'};
+
     final store = AssetStore(mockGetAssetsUseCase);
     Get.put(store);
 
-    await tester.pumpWidget(
-      const GetMaterialApp(
-        home: AssetPage(),
-      ),
-    );
+    await tester.pumpWidget(createWidgetUnderTest());
 
     await tester.pumpAndSettle();
+
     expect(find.text('Nenhum ativo disponível.'), findsOneWidget);
   });
 
@@ -89,14 +94,12 @@ void main() {
     when(mockGetAssetsUseCase.call(any))
         .thenThrow(Exception('Erro ao buscar ativos'));
 
+    Get.parameters = {'companyId': 'test-company-id'};
+
     final store = AssetStore(mockGetAssetsUseCase);
     Get.put(store);
 
-    await tester.pumpWidget(
-      const GetMaterialApp(
-        home: AssetPage(),
-      ),
-    );
+    await tester.pumpWidget(createWidgetUnderTest());
 
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
 

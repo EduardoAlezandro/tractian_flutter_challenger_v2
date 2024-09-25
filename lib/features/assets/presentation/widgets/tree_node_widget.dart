@@ -108,15 +108,15 @@ class _TreeNodeWidgetState extends State<TreeNodeWidget> {
         break;
       default:
         imagePath =
-            'assets/images/default_icon.png'; // Coloque uma imagem padrão, se necessário
+            'assets/images/default_icon.png';
     }
 
     return Image.asset(
       imagePath,
-      width: 24, // Tamanho do ícone
+      width: 24, 
       height: 24,
       color: Colors
-          .blue, // Aplicar cor se for um ícone monocromático, senão remova esta linha
+          .blue,
     );
   }
 

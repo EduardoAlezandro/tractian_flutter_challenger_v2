@@ -102,19 +102,18 @@ class AssetPage extends GetView<AssetStore> {
                 } else if (controller.treeNodes.isEmpty) {
                   return const Center(child: Text('Nenhum ativo disponível.'));
                 } else {
-                  // Adicionando scroll horizontal e vertical
                   return SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     child: SingleChildScrollView(
                       scrollDirection: Axis.vertical,
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width *
-                            1.5, // Ajustar a largura conforme necessário
+                            1.5, 
                         height: MediaQuery.of(context).size.height *
-                            1.5, // Ajustar a altura conforme necessário
+                            1.5,
                         child: ListView.builder(
                           shrinkWrap:
-                              true, // Para que o ListView se ajuste ao conteúdo
+                              true,
                           itemCount: controller.treeNodes.length,
                           itemBuilder: (context, index) {
                             final node = controller.treeNodes[index];
