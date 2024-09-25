@@ -68,26 +68,6 @@ Para continuar aprimorando o projeto, as seguintes prioridades de desenvolviment
 3. **Aprimorar o tratamento de erros e a experiência do usuário**: Foco em acessibilidade e usabilidade.
 4. **Explorar novas APIs de geolocalização**: Integração avançada com mapas para funcionalidades aprimoradas.
 5. **Implementar tema personalizado**: Desenvolver um tema consistente e reutilizável para a aplicação.
-
-## 🤝 Como Contribuir
-
-Contribuições são bem-vindas! Siga os passos abaixo para colaborar com o projeto:
-
-1. **Faça um fork deste repositório.**
-2. **Crie um branch para a sua feature**:
-    ```bash
-    git checkout -b feature/NovaFeature
-    ```
-3. **Faça commit das suas mudanças**:
-    ```bash
-    git commit -m 'Adiciona nova feature'
-    ```
-4. **Envie para o branch**:
-    ```bash
-    git push origin feature/NovaFeature
-    ```
-5. **Abra um Pull Request**.
-
 ## 📄 Licença
 
 Este projeto está licenciado sob a [MIT License](LICENSE).
