@@ -10,7 +10,7 @@ Esta implementação visa explorar e aprimorar a árvore de ativos, melhorando a
 
 
 
-https://github.com/user-attachments/assets/d5ef9144-d315-4f26-99f6-789cb4ff8883
+https://github.com/user-attachments/assets/5c27a05f-5f56-4090-be3e-30e0f9ef232d
 
 
 
