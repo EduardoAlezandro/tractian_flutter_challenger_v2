@@ -1,5 +1,3 @@
-// lib/bindings/home_binding.dart
-
 import 'package:get/get.dart';
 import 'package:tractian_flutter_challenger_v2/core/services/api_service.dart';
 import 'package:tractian_flutter_challenger_v2/features/companies/data/datasources/company_remote_data_source.dart';

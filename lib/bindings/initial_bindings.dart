@@ -1,5 +1,3 @@
-// lib/bindings/initial_bindings.dart
-
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 import 'package:tractian_flutter_challenger_v2/core/services/api_service.dart';

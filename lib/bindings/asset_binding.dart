@@ -1,5 +1,3 @@
-// lib/bindings/asset_binding.dart
-
 import 'package:get/get.dart';
 import 'package:tractian_flutter_challenger_v2/core/services/api_service.dart';
 import 'package:tractian_flutter_challenger_v2/features/assets/data/datasources/asset_remote_data_source.dart';

@@ -1,4 +1,3 @@
-// lib/features/companies/presentation/stores/company_store.dart
 
 import 'package:mobx/mobx.dart';
 import 'package:tractian_flutter_challenger_v2/features/companies/domain/entities/company.dart';

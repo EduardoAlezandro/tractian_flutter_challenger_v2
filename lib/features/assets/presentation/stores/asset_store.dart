@@ -53,16 +53,13 @@ abstract class _AssetStoreBase with Store {
 
   @action
   void buildTree() {
-    // Limpar nós existentes
     treeNodes.clear();
     originalTreeNodes.clear();
 
-    // Mapas auxiliares para acesso rápido
     final Map<String, TreeNode> locationNodes = {};
     final Map<String, TreeNode> assetNodes = {};
     final Map<String, TreeNode> componentNodes = {};
 
-    // Criar nós de locais
     for (var loc in locations) {
       locationNodes[loc.id] = TreeNode(
         id: loc.id,
@@ -73,14 +70,12 @@ abstract class _AssetStoreBase with Store {
       );
     }
 
-    // Associar sub-locais
     for (var loc in locations) {
       if (loc.parentId != null && locationNodes.containsKey(loc.parentId)) {
         locationNodes[loc.parentId]!.children.add(locationNodes[loc.id]!);
       }
     }
 
-    // Criar nós de ativos
     for (var asset in assets) {
       assetNodes[asset.id] = TreeNode(
         id: asset.id,
@@ -91,7 +86,6 @@ abstract class _AssetStoreBase with Store {
       );
     }
 
-    // Associar ativos a seus pais
     for (var asset in assets) {
       if (asset.parentId != null && assetNodes.containsKey(asset.parentId)) {
         assetNodes[asset.parentId]!.children.add(assetNodes[asset.id]!);
@@ -101,7 +95,6 @@ abstract class _AssetStoreBase with Store {
       }
     }
 
-    // Criar nós de componentes
     for (var component in components) {
       componentNodes[component.id] = TreeNode(
         id: component.id,
@@ -114,7 +107,6 @@ abstract class _AssetStoreBase with Store {
       );
     }
 
-    // Associar componentes a seus pais
     for (var component in components) {
       if (component.parentId != null &&
           assetNodes.containsKey(component.parentId)) {
@@ -129,31 +121,26 @@ abstract class _AssetStoreBase with Store {
       }
     }
 
-    // Adicionar locais raiz à árvore
     for (var loc in locations) {
       if (loc.parentId == null) {
         originalTreeNodes.add(locationNodes[loc.id]!);
       }
     }
 
-    // Adicionar ativos sem pai à árvore
     for (var asset in assets) {
       if (asset.parentId == null && asset.locationId == null) {
         originalTreeNodes.add(assetNodes[asset.id]!);
       }
     }
 
-    // Adicionar componentes sem pai à árvore
     for (var component in components) {
       if (component.parentId == null && component.locationId == null) {
         originalTreeNodes.add(componentNodes[component.id]!);
       }
     }
 
-    // Inicialmente, treeNodes é igual a originalTreeNodes
     treeNodes.addAll(originalTreeNodes);
 
-    // Aplicar filtros se houver
     if (searchText.isNotEmpty || showEnergySensors || showCriticalAssets) {
       applyFilters();
     }
@@ -179,16 +166,13 @@ abstract class _AssetStoreBase with Store {
 
   @action
   void applyFilters() {
-    // Limpar a lista treeNodes
     treeNodes.clear();
 
-    // Se não houver texto de busca e filtros desativados, restaura a árvore original
     if (searchText.isEmpty && !showEnergySensors && !showCriticalAssets) {
       treeNodes.addAll(originalTreeNodes);
       return;
     }
 
-    // Filtrar a árvore
     for (var node in originalTreeNodes) {
       final filteredNode = _filterNode(node);
       if (filteredNode != null) {
@@ -196,39 +180,38 @@ abstract class _AssetStoreBase with Store {
       }
     }
   }
-TreeNode? _filterNode(TreeNode node) {
-  // Verifica se o nó ou qualquer dos filhos atende ao filtro
-  bool matchesText = node.name.toLowerCase().contains(searchText.toLowerCase());
-  bool matchesEnergySensor = showEnergySensors ? node.sensorType == 'energy' : true;
-  bool matchesCritical = showCriticalAssets ? node.status == 'alert' : true;
 
-  // Se o nó atende ao critério, ele será mantido na árvore
-  bool matchesNode = matchesText && matchesEnergySensor && matchesCritical;
+  TreeNode? _filterNode(TreeNode node) {
+    bool matchesText =
+        node.name.toLowerCase().contains(searchText.toLowerCase());
+    bool matchesEnergySensor =
+        showEnergySensors ? node.sensorType == 'energy' : true;
+    bool matchesCritical = showCriticalAssets ? node.status == 'alert' : true;
 
-  // Filtrar os filhos e verificar se algum deles corresponde ao filtro
-  final List<TreeNode> filteredChildren = [];
-  for (var child in node.children) {
-    final filteredChild = _filterNode(child);
-    if (filteredChild != null) {
-      filteredChildren.add(filteredChild);
+    bool matchesNode = matchesText && matchesEnergySensor && matchesCritical;
+
+    final List<TreeNode> filteredChildren = [];
+    for (var child in node.children) {
+      final filteredChild = _filterNode(child);
+      if (filteredChild != null) {
+        filteredChildren.add(filteredChild);
+      }
     }
-  }
 
-  // Se o nó ou algum dos filhos corresponder, retornar o nó com seus filhos filtrados
-  if (matchesNode || filteredChildren.isNotEmpty) {
-    return TreeNode(
-      id: node.id,
-      name: node.name,
-      type: node.type,
-      parentId: node.parentId,
-      sensorType: node.sensorType,
-      status: node.status,
-      isExpanded: true,  // Marca o nó como expandido
-      children: filteredChildren,  // Mantém os filhos correspondentes ao filtro
-    );
-  }
+    if (matchesNode || filteredChildren.isNotEmpty) {
+      return TreeNode(
+        id: node.id,
+        name: node.name,
+        type: node.type,
+        parentId: node.parentId,
+        sensorType: node.sensorType,
+        status: node.status,
+        isExpanded: true,
+        children:
+            filteredChildren, 
+      );
+    }
 
-  // Se o nó e nenhum dos filhos corresponder, retorna null (filtra este nó fora)
-  return null;
-}
+    return null;
+  }
 }

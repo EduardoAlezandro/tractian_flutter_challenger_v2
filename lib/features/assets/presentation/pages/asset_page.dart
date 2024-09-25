@@ -27,13 +27,12 @@ class AssetPage extends GetView<AssetStore> {
             size: 24,
           ),
           onPressed: () {
-            Get.back(); // Voltar para a tela anterior
+            Get.back();
           },
         ),
       ),
       body: Column(
         children: [
-          // Campo de busca
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
@@ -45,27 +44,48 @@ class AssetPage extends GetView<AssetStore> {
               ),
             ),
           ),
-          // Filtros
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Row(
               children: [
-                // Filtro "Sensor de Energia"
                 Observer(
                   builder: (_) => FilterChip(
-                    label: const Text('Sensor de Energia'),
+                    label: const Row(
+                      children: [
+                        Icon(Icons.bolt, size: 16, color: Colors.grey),
+                        SizedBox(width: 4),
+                        Text('Sensor de Energia'),
+                      ],
+                    ),
                     selected: controller.showEnergySensors,
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.grey.shade300),
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    selectedColor: Colors.blue.shade100,
                     onSelected: (bool selected) {
                       controller.toggleEnergySensorFilter(selected);
                     },
                   ),
                 ),
                 const SizedBox(width: 8),
-                // Filtro "Crítico"
                 Observer(
                   builder: (_) => FilterChip(
-                    label: const Text('Crítico'),
+                    label: const Row(
+                      children: [
+                        Icon(Icons.info_outline, size: 16, color: Colors.grey),
+                        SizedBox(width: 4),
+                        Text('Crítico'),
+                      ],
+                    ),
                     selected: controller.showCriticalAssets,
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.grey.shade300),
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    selectedColor: Colors.blue.shade100,
                     onSelected: (bool selected) {
                       controller.toggleCriticalFilter(selected);
                     },
@@ -74,7 +94,6 @@ class AssetPage extends GetView<AssetStore> {
               ],
             ),
           ),
-          // Árvore de nós com rolagem horizontal e vertical
           Expanded(
             child: Observer(
               builder: (_) {
@@ -83,16 +102,25 @@ class AssetPage extends GetView<AssetStore> {
                 } else if (controller.treeNodes.isEmpty) {
                   return const Center(child: Text('Nenhum ativo disponível.'));
                 } else {
+                  // Adicionando scroll horizontal e vertical
                   return SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      child: ListView.builder(
-                        itemCount: controller.treeNodes.length,
-                        itemBuilder: (context, index) {
-                          final node = controller.treeNodes[index];
-                          return TreeNodeWidget(node: node);
-                        },
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width *
+                            1.5, // Ajustar a largura conforme necessário
+                        height: MediaQuery.of(context).size.height *
+                            1.5, // Ajustar a altura conforme necessário
+                        child: ListView.builder(
+                          shrinkWrap:
+                              true, // Para que o ListView se ajuste ao conteúdo
+                          itemCount: controller.treeNodes.length,
+                          itemBuilder: (context, index) {
+                            final node = controller.treeNodes[index];
+                            return TreeNodeWidget(node: node);
+                          },
+                        ),
                       ),
                     ),
                   );

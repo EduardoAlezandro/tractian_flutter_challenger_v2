@@ -1,6 +1,3 @@
-// lib/features/assets/data/models/asset_model.dart
-
-
 import 'package:tractian_flutter_challenger_v2/features/assets/domain/entities/asset.dart';
 
 class AssetModel extends Asset {

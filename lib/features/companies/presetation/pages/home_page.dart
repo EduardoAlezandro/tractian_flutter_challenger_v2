@@ -36,7 +36,7 @@ class HomePage extends GetView<CompanyStore> {
                       height: 76,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue, // Cor do botão
+                          backgroundColor: Colors.blue,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
@@ -49,7 +49,7 @@ class HomePage extends GetView<CompanyStore> {
                         },
                         child: Row(
                           children: [
-                            const Icon(Icons.account_tree, color: Colors.white),
+                            Image.asset('assets/images/companies_icon.png'),
                             const SizedBox(width: 16),
                             Text(
                               company.name,

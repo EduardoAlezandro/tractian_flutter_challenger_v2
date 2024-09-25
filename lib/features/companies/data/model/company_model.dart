@@ -1,4 +1,3 @@
-// lib/features/companies/data/models/company_model.dart
 
 import 'package:tractian_flutter_challenger_v2/features/companies/domain/entities/company.dart';
 

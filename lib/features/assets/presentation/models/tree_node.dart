@@ -8,8 +8,7 @@ class TreeNode {
   final List<TreeNode> children;
   final String? sensorType;
   final String? status;
-  bool isExpanded;  // Propriedade para controlar a expansão
-
+  bool isExpanded;  
   TreeNode({
     required this.id,
     required this.name,
@@ -18,6 +17,6 @@ class TreeNode {
     this.children = const [],
     this.sensorType,
     this.status,
-    this.isExpanded = false,  // Inicialmente, o nó não está expandido
+    this.isExpanded = false,
   });
 }

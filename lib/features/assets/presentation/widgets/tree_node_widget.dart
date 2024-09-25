@@ -22,7 +22,6 @@ class _TreeNodeWidgetState extends State<TreeNodeWidget> {
   Widget build(BuildContext context) {
     const double arrowIconSize = 24.0;
 
-    // Cálculo do padding e posição do ícone
     final double leftPadding = widget.depth * 16.0;
     final double iconCenterX = leftPadding + arrowIconSize / 2;
     const double iconCenterY = arrowIconSize / 2;
@@ -68,16 +67,12 @@ class _TreeNodeWidgetState extends State<TreeNodeWidget> {
                       : const SizedBox(width: arrowIconSize),
                   _buildLeadingIcon(widget.node),
                   const SizedBox(width: 8),
-                  // Exibimos apenas o nome do sensor
                   Text(
-                    widget.node.name, // Exibindo somente o nome, sem sensorType
+                    widget.node.name,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(width: 8),
-                  _getStatusIcon(
-                      widget.node.status,
-                      widget
-                          .node.sensorType), // Passando sensorType para o ícone
+                  _getStatusIcon(widget.node.status, widget.node.sensorType),
                 ],
               ),
               if (widget.node.isExpanded)
@@ -99,41 +94,45 @@ class _TreeNodeWidgetState extends State<TreeNodeWidget> {
   }
 
   Widget _buildLeadingIcon(TreeNode node) {
-    IconData iconData;
+    String imagePath;
+
     switch (node.type) {
       case NodeType.location:
-        iconData = Icons.location_on;
+        imagePath = 'assets/images/locations_icon.png';
         break;
       case NodeType.asset:
-        iconData = Icons.build;
+        imagePath = 'assets/images/components_icon.png';
         break;
       case NodeType.component:
-        iconData = Icons.memory;
+        imagePath = 'assets/images/motor_icon.png';
         break;
       default:
-        iconData = Icons.device_unknown;
+        imagePath =
+            'assets/images/default_icon.png'; // Coloque uma imagem padrão, se necessário
     }
-    return Icon(iconData, color: Colors.blue);
+
+    return Image.asset(
+      imagePath,
+      width: 24, // Tamanho do ícone
+      height: 24,
+      color: Colors
+          .blue, // Aplicar cor se for um ícone monocromático, senão remova esta linha
+    );
   }
 
   Widget _getStatusIcon(String? status, String? sensorType) {
     if (sensorType == 'energy' && (status == 'alert' || status == 'alert')) {
-      // Ícone de energia vermelho quando o status for crítico ou alerta
       return const Icon(Icons.bolt, color: Colors.red, size: 22);
     } else if (sensorType == 'energy') {
-      // Ícone de energia verde para o sensor de energia normal
       return const Icon(Icons.bolt, color: Colors.green, size: 22);
     } else if (status == 'alert' || status == 'critical') {
-      // Ícone vermelho para status crítico
       return const Icon(Icons.circle, color: Colors.red, size: 12);
     } else if (status == 'normal') {
-      // Ícone verde para status normal
       return const Icon(Icons.circle, color: Colors.green, size: 12);
     } else if (status == 'powered') {
-      // Ícone de energia verde para status powered
       return const Icon(Icons.bolt, color: Colors.green, size: 22);
     }
-    return const SizedBox(); // Nenhum ícone se nenhum critério for atendido
+    return const SizedBox();
   }
 }
 
@@ -159,7 +158,6 @@ class NodePainter extends CustomPainter {
     final double startX = iconCenterOffset.dx;
     final double centerY = iconCenterOffset.dy;
 
-    // Desenha a linha vertical abaixo do nó (conecta com os filhos)
     canvas.drawLine(
       Offset(startX, centerY),
       Offset(startX, size.height),
